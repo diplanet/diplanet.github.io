@@ -542,8 +542,87 @@
         </div>
     </footer>
 
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsentBanner" class="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6" style="display: none;">
+        <div class="container mx-auto max-w-4xl">
+            <div class="glass border border-white/20 rounded-2xl p-4 sm:p-6 shadow-2xl backdrop-blur-lg" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i class="fas fa-cookie-bite text-xl flex-shrink-0" style="color: #6699CC;"></i>
+                            <h3 class="text-lg font-semibold text-white">Cookie Consent</h3>
+                        </div>
+                        <p class="text-sm sm:text-base leading-relaxed" style="color: #D1D5DB;">
+                            We use cookies to enhance your browsing experience, provide personalized content, and analyze our traffic. 
+                            These cookies help us understand how you interact with our website and improve our services. 
+                            You can choose to accept or decline cookies below.
+                        </p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                        <button id="acceptCookies" class="font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg text-sm sm:text-base" style="background: linear-gradient(to right, #6699CC, #3B82F6); color: #003366; position: relative; overflow: hidden;">
+                            <span style="position: relative; z-index: 10;">Accept All</span>
+                        </button>
+                        <button id="rejectCookies" class="font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 text-sm sm:text-base" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(102, 153, 204, 0.3); color: #6699CC;">
+                            Reject All
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Cookie Consent functionality
+        function initCookieConsent() {
+            const banner = document.getElementById('cookieConsentBanner');
+            const acceptBtn = document.getElementById('acceptCookies');
+            const rejectBtn = document.getElementById('rejectCookies');
+            
+            // Check if user has already made a choice
+            const consent = localStorage.getItem('cookieConsent');
+            if (!consent) {
+                // Show banner after a short delay for better UX
+                setTimeout(() => {
+                    banner.style.display = 'block';
+                    banner.style.opacity = '0';
+                    banner.style.transform = 'translateY(100%)';
+                    banner.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                    
+                    // Trigger animation
+                    setTimeout(() => {
+                        banner.style.opacity = '1';
+                        banner.style.transform = 'translateY(0)';
+                    }, 50);
+                }, 1000);
+            }
+            
+            function hideBanner() {
+                banner.style.opacity = '0';
+                banner.style.transform = 'translateY(100%)';
+                setTimeout(() => {
+                    banner.style.display = 'none';
+                }, 300);
+            }
+            
+            acceptBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'accepted');
+                localStorage.setItem('cookieConsentDate', new Date().toISOString());
+                hideBanner();
+                console.log('Cookies accepted');
+            });
+            
+            rejectBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'rejected');
+                localStorage.setItem('cookieConsentDate', new Date().toISOString());
+                hideBanner();
+                console.log('Cookies rejected');
+            });
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
+            // Initialize cookie consent
+            initCookieConsent();
+            
             // Enhanced intersection observer with stagger effect
             const sections = document.querySelectorAll('.fade-in-section');
             const observer = new IntersectionObserver((entries) => {
