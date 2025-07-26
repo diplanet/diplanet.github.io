@@ -1,1 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIPLANET - Elite Digital & AI Solutions</title>
+    
+    <!-- Tailwind CSS & Alpine.js via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary-dark': '#003366',
+              'primary-medium': '#336699',
+              'accent': '#6699CC',
+              'light': '#EBF4FF' 
+            },
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+            animation: {
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'aurora': 'aurora 60s ease infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'pulse-slow': 'pulse 3s ease-in-out infinite',
+              'slide-in-left': 'slideInLeft 0.8s ease-out forwards',
+              'bounce-gentle': 'bounceGentle 2s ease-in-out infinite',
+              'shimmer': 'shimmer 2s linear infinite',
+              'slide-bg': 'slideBg 20s linear infinite',
+            },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              aurora: {
+                '0%': { backgroundPosition: '0% 50%' },
+                '50%': { backgroundPosition: '100% 50%' },
+                '100%': { backgroundPosition: '0% 50%' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              slideInLeft: {
+                '0%': { opacity: '0', transform: 'translateX(-30px)' },
+                '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+              bounceGentle: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              shimmer: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(100%)' },
+              },
+              slideBg: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(100%)' },
+              },
+            },
+          }
+        }
+      }
+    </script>
+    
+    <style>
+      .fade-in-section {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+      .fade-in-section.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .aurora-background {
+        background: linear-gradient(-45deg, #003366, #336699, #002244, #1E5084);
+        background-size: 400% 400%;
+      }
+      
+      /* Enhanced scroll behavior */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #003366;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #6699CC;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #336699;
+      }
+
+      /* Glassmorphism effect */
+      .glass {
+        background: rgba(255, 255, 255, 0.05);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Shimmer effect */
+      .shimmer {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .shimmer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shimmer 2s infinite;
+      }
+
+      /* Animated background pattern */
+      .pattern-bg {
+        background-image: radial-gradient(circle at 2px 2px, #6699CC 1px, transparent 0);
+        background-size: 40px 40px;
+        animation: slideBg 20s linear infinite;
+      }
+
+      /* Enhanced button hover effects */
+      .btn-enhanced {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .btn-enhanced::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .btn-enhanced:hover::before {
+        left: 100%;
+      }
+
+      /* Card hover enhancement */
+      .card-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px -12px rgba(102, 153, 204, 0.25);
+      }
+    </style>
+</head>
+
+<body class="bg-primary-dark text-gray-300 font-sans antialiased">
+
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="glass fixed top-0 left-0 right-0 z-50 border-b border-white/10">
+        <nav class="container mx-auto px-4 sm:px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#hero" class="text-2xl font-bold text-white flex-shrink-0 transition-all duration-300 hover:scale-105">
+                    DIPLANET<span class="text-accent animate-pulse-slow">.</span>
+                </a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#solutions" class="text-gray-300 hover:text-accent transition-all duration-300 relative group">
+                        Solutions
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#about" class="text-gray-300 hover:text-accent transition-all duration-300 relative group">
+                        About Us
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="text-gray-300 hover:text-accent transition-all duration-300 relative group">
+                        Contact
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="bg-gradient-to-r from-accent to-blue-400 hover:from-blue-400 hover:to-accent text-primary-dark font-bold py-2 px-5 rounded-full transition-all duration-300 shadow-lg shadow-accent/20 transform hover:scale-105 hover:shadow-accent/40 btn-enhanced">
+                        Get a Quote
+                    </a>
+                </div>
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden focus:outline-none p-2 text-white hover:bg-white/10 rounded-lg transition-all duration-300" title="Toggle mobile menu" aria-label="Toggle mobile menu">
+                    <i :class="mobileMenuOpen ? 'fas fa-times' : 'fas fa-bars'" class="text-xl"></i>
+                </button>
+            </div>
+            <div x-show="mobileMenuOpen" x-transition class="md:hidden mt-4 glass rounded-lg p-4">
+                <a href="#solutions" @click="mobileMenuOpen = false" class="block py-2 px-3 text-white hover:bg-white/10 rounded transition-all duration-300">Solutions</a>
+                <a href="#about" @click="mobileMenuOpen = false" class="block py-2 px-3 text-white hover:bg-white/10 rounded transition-all duration-300">About Us</a>
+                <a href="#contact" @click="mobileMenuOpen = false" class="block py-2 px-3 text-white hover:bg-white/10 rounded transition-all duration-300">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 sm:pt-16 aurora-background animate-aurora">
+            <!-- Floating geometric shapes -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="absolute top-20 left-10 w-20 h-20 bg-accent/20 rounded-full animate-float blur-sm"></div>
+                <div class="absolute top-40 right-20 w-16 h-16 bg-accent/10 rounded-full animate-float" style="animation-delay: 2s;"></div>
+                <div class="absolute bottom-40 left-20 w-12 h-12 bg-accent/15 rounded-full animate-float" style="animation-delay: 4s;"></div>
+                <div class="absolute top-60 left-1/2 w-8 h-8 bg-white/10 rounded-full animate-bounce-gentle" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-60 right-1/3 w-14 h-14 bg-accent/5 rounded-full animate-float" style="animation-delay: 3s;"></div>
+            </div>
+            
+            <div class="absolute inset-0 bg-primary-dark/30"></div>
+            <div class="relative text-center px-4 sm:px-6 z-20">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-normal mb-4 animate-fade-in-up">
+                    Architects of <span class="text-accent">Digital Excellence</span>
+                </h1>
+                <p class="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+                    We deliver transformative AI, IT infrastructure, and online solutions that redefine market leadership and drive unparalleled growth.
+                </p>
+                <a href="#solutions" class="relative overflow-hidden bg-gradient-to-r from-accent to-blue-400 hover:from-blue-400 hover:to-accent text-primary-dark font-bold py-3 px-8 sm:py-4 sm:px-10 rounded-full text-lg transition-all duration-300 inline-block animate-fade-in-up shadow-2xl shadow-accent/30 transform hover:scale-105 hover:shadow-accent/50 btn-enhanced" style="animation-delay: 0.4s;">
+                    <span class="relative z-10">Explore Our Solutions</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Digital Solutions Section -->
+        <section id="solutions" class="py-20 md:py-28 lg:py-32 bg-primary-dark fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16 md:mb-20">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Our Digital Solutions</h2>
+                    <p class="text-base sm:text-lg text-gray-300 mt-3 max-w-2xl mx-auto">Explore how we can elevate your business with cutting-edge technology.</p>
+                </div>
+
+                <div x-data="{ activeSolution: 1 }" class="max-w-6xl mx-auto">
+                    <!-- This container will hold all our solution items -->
+                    <!-- On mobile, it's a simple flex column. On desktop (md), it becomes a grid. -->
+                    <div class="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-8">
+                        
+                        <!-- SOLUTION 1: AI & AUTOMATION -->
+                        <div class="solution-item md:contents">
+                            <!-- The button. On md screens it's part of the first grid column -->
+                            <button @click="activeSolution = (activeSolution === 1 ? null : 1)" 
+                                    :class="{
+                                        'bg-gradient-to-r from-accent to-blue-400 text-primary-dark shadow-lg transform scale-105': activeSolution === 1,
+                                        'glass hover:bg-white/10 text-light': activeSolution !== 1
+                                    }" 
+                                    class="w-full text-left font-semibold p-4 rounded-lg transition-all duration-300 flex items-center justify-between gap-4 text-sm sm:text-base card-hover md:col-start-1">
+                               <div class="flex items-center gap-4">
+                                   <i class="fas fa-brain text-xl flex-shrink-0"></i>
+                                   <span>AI & Automation</span>
+                               </div>
+                               <i class="fas fa-chevron-down text-sm transition-transform duration-300 md:hidden" :class="{ 'rotate-180': activeSolution === 1 }"></i>
+                            </button>
+                            
+                            <!-- The content. On md screens it's part of the second grid column -->
+                            <div x-show="activeSolution === 1" x-transition class="md:col-start-2 md:col-span-2 md:row-start-1 md:row-end-5">
+                                <div class="glass p-6 lg:p-8 rounded-2xl min-h-[480px] group overflow-hidden shadow-2xl card-hover mt-2 md:mt-0">
+                                    <div class="overflow-hidden rounded-lg mb-6 relative shimmer">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-primary-dark/50 to-transparent z-10"></div>
+                                        <img src="https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" loading="lazy" decoding="async" class="w-full h-40 sm:h-48 object-cover transition-all duration-500 ease-in-out group-hover:scale-110 group-hover:brightness-110" alt="Abstract glowing light streams on a dark background, representing AI and automation.">
+                                    </div>
+                                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">AI & Automation</h3>
+                                    <p class="mb-5 text-sm sm:text-base text-gray-300">Integrate intelligent systems to unlock efficiency and uncover critical business insights.</p>
+                                    <ul class="space-y-3 text-sm sm:text-base text-gray-300">
+                                        <li class="flex items-center gap-3 group">
+                                            <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                            <span class="transition-colors duration-300 group-hover:text-white">Custom Machine Learning model deployment.</span>
+                                        </li>
+                                        <li class="flex items-center gap-3 group">
+                                            <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                            <span class="transition-colors duration-300 group-hover:text-white">Business process automation with RPA.</span>
+                                        </li>
+                                        <li class="flex items-center gap-3 group">
+                                            <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                            <span class="transition-colors duration-300 group-hover:text-white">Natural Language Processing (NLP) solutions.</span>
+                                        </li>
+                                        <li class="flex items-center gap-3 group">
+                                            <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                            <span class="transition-colors duration-300 group-hover:text-white">Predictive analytics and data forecasting.</span>
+                                        </li>
+                                        <li class="flex items-center gap-3 group">
+                                            <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                            <span class="transition-colors duration-300 group-hover:text-white">AI-powered chatbot & virtual assistant development.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SOLUTION 2: IT INFRASTRUCTURE -->
+                        <div class="solution-item md:contents">
+                            <button @click="activeSolution = (activeSolution === 2 ? null : 2)" 
+                                    :class="{
+                                        'bg-gradient-to-r from-accent to-blue-400 text-primary-dark shadow-lg transform scale-105': activeSolution === 2,
+                                        'glass hover:bg-white/10 text-light': activeSolution !== 2
+                                    }" 
+                                    class="w-full text-left font-semibold p-4 rounded-lg transition-all duration-300 flex items-center justify-between gap-4 text-sm sm:text-base card-hover md:col-start-1">
+                                <div class="flex items-center gap-4">
+                                    <i class="fas fa-server text-xl flex-shrink-0"></i>
+                                    <span>IT Infrastructure</span>
+                                </div>
+                                <i class="fas fa-chevron-down text-sm transition-transform duration-300 md:hidden" :class="{ 'rotate-180': activeSolution === 2 }"></i>
+                            </button>
+                            <div x-show="activeSolution === 2" x-transition class="md:col-start-2 md:col-span-2 md:row-start-1 md:row-end-5">
+                                <div class="glass p-6 lg:p-8 rounded-2xl min-h-[480px] group overflow-hidden shadow-2xl card-hover mt-2 md:mt-0">
+                                    <div class="overflow-hidden rounded-lg mb-6 relative shimmer">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-primary-dark/50 to-transparent z-10"></div>
+                                        <img src="https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" loading="lazy" decoding="async" class="w-full h-40 sm:h-48 object-cover transition-all duration-500 ease-in-out group-hover:scale-110 group-hover:brightness-110" alt="Modern server racks in a data center with blue ambient lighting, representing IT infrastructure.">
+                                    </div>
+                                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">IT Infrastructure</h3>
+                                    <p class="mb-5 text-sm sm:text-base text-gray-300">Build a secure, scalable, and resilient foundation for your digital operations.</p>
+                                    <ul class="space-y-3 text-sm sm:text-base text-gray-300">
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Cloud Computing (AWS, Azure, Google Cloud).</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Systems Engineering & Network Administration.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Microsoft 365 Administration & Management.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">IT Service Management, Helpdesk & Support.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Disaster Recovery & Business Continuity Planning.</span>
+                                       </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SOLUTION 3: APP & WEB DEVELOPMENT -->
+                        <div class="solution-item md:contents">
+                            <button @click="activeSolution = (activeSolution === 3 ? null : 3)" 
+                                    :class="{
+                                        'bg-gradient-to-r from-accent to-blue-400 text-primary-dark shadow-lg transform scale-105': activeSolution === 3,
+                                        'glass hover:bg-white/10 text-light': activeSolution !== 3
+                                    }" 
+                                    class="w-full text-left font-semibold p-4 rounded-lg transition-all duration-300 flex items-center justify-between gap-4 text-sm sm:text-base card-hover md:col-start-1">
+                                <div class="flex items-center gap-4">
+                                    <i class="fas fa-code text-xl flex-shrink-0"></i>
+                                    <span>App & Web Development</span>
+                                </div>
+                                <i class="fas fa-chevron-down text-sm transition-transform duration-300 md:hidden" :class="{ 'rotate-180': activeSolution === 3 }"></i>
+                            </button>
+                            <div x-show="activeSolution === 3" x-transition class="md:col-start-2 md:col-span-2 md:row-start-1 md:row-end-5">
+                                <div class="glass p-6 lg:p-8 rounded-2xl min-h-[480px] group overflow-hidden shadow-2xl card-hover mt-2 md:mt-0">
+                                    <div class="overflow-hidden rounded-lg mb-6 relative shimmer">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-primary-dark/50 to-transparent z-10"></div>
+                                        <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" loading="lazy" decoding="async" class="w-full h-40 sm:h-48 object-cover transition-all duration-500 ease-in-out group-hover:scale-110 group-hover:brightness-110" alt="Two developers collaborating over code on multiple screens, representing app & web development.">
+                                    </div>
+                                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">App & Web Development</h3>
+                                    <p class="mb-5 text-sm sm:text-base text-gray-300">Craft exceptional digital experiences that engage users and drive conversions.</p>
+                                    <ul class="space-y-3 text-sm sm:text-base text-gray-300">
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Frontend: HTML, CSS, JavaScript, Bootstrap.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Backend: PHP, Laravel, Symfony, Drupal, WordPress.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Servers & Platforms: Apache, IIS, Node.js.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Enterprise: Microsoft SharePoint & Power Platform.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Custom API development & third-party integrations.</span>
+                                       </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SOLUTION 4: DIGITAL MARKETING -->
+                        <div class="solution-item md:contents">
+                            <button @click="activeSolution = (activeSolution === 4 ? null : 4)" 
+                                    :class="{
+                                        'bg-gradient-to-r from-accent to-blue-400 text-primary-dark shadow-lg transform scale-105': activeSolution === 4,
+                                        'glass hover:bg-white/10 text-light': activeSolution !== 4
+                                    }" 
+                                    class="w-full text-left font-semibold p-4 rounded-lg transition-all duration-300 flex items-center justify-between gap-4 text-sm sm:text-base card-hover md:col-start-1">
+                                <div class="flex items-center gap-4">
+                                    <i class="fas fa-chart-line text-xl flex-shrink-0"></i>
+                                    <span>Digital Marketing</span>
+                                </div>
+                                <i class="fas fa-chevron-down text-sm transition-transform duration-300 md:hidden" :class="{ 'rotate-180': activeSolution === 4 }"></i>
+                            </button>
+                            <div x-show="activeSolution === 4" x-transition class="md:col-start-2 md:col-span-2 md:row-start-1 md:row-end-5">
+                                <div class="glass p-6 lg:p-8 rounded-2xl min-h-[480px] group overflow-hidden shadow-2xl card-hover mt-2 md:mt-0">
+                                    <div class="overflow-hidden rounded-lg mb-6 relative shimmer">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-primary-dark/50 to-transparent z-10"></div>
+                                        <img src="https://images.pexels.com/photos/6476587/pexels-photo-6476587.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" loading="lazy" decoding="async" class="w-full h-40 sm:h-48 object-cover transition-all duration-500 ease-in-out group-hover:scale-110 group-hover:brightness-110" alt="A marketing strategy funnel sketched on a clear board, representing digital marketing.">
+                                    </div>
+                                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">Digital Marketing</h3>
+                                    <p class="mb-5 text-sm sm:text-base text-gray-300">Amplify your brand's voice and capture market share with data-driven strategies.</p>
+                                    <ul class="space-y-3 text-sm sm:text-base text-gray-300">
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Search Engine Advertising & Optimization (SEA/SEO).</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Social Media Management & Advertising.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Google Ads, Analytics, & Tag Manager expertise.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">Affiliate & Email Marketing, Lead Generation.</span>
+                                       </li>
+                                       <li class="flex items-center gap-3 group">
+                                           <i class="fas fa-check-circle text-accent flex-shrink-0 transition-transform duration-300 group-hover:scale-110"></i>
+                                           <span class="transition-colors duration-300 group-hover:text-white">In-depth market analysis & competitor research.</span>
+                                       </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 md:py-28 lg:py-36 bg-gradient-to-br from-primary-medium/10 to-primary-dark fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                    <div class="lg:w-1/2 overflow-hidden rounded-2xl card-hover">
+                        <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" loading="lazy" decoding="async" class="w-full h-full object-cover transition-all duration-500 ease-in-out aspect-[4/3] lg:aspect-auto hover:scale-110 hover:brightness-110" alt="A diverse team collaborating and giving a high-five over a table with laptops.">
+                    </div>
+                    <div class="lg:w-1/2">
+                        <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6 animate-slide-in-left">Your Partner in Digital Innovation</h2>
+                        <p class="text-base sm:text-lg text-gray-300 mb-6 animate-slide-in-left" style="animation-delay: 0.2s;">DIPLANET is more than a service provider; we are an extension of your team. Our philosophy is built on partnership, transparency, and an unwavering commitment to achieving your strategic goals.</p>
+                        <p class="text-base sm:text-lg text-gray-300 mb-8 animate-slide-in-left" style="animation-delay: 0.4s;">We bring together a diverse team of expert engineers, creatives, and strategists to tackle complex challenges and deliver solutions that are not only technologically advanced but also commercially viable.</p>
+                        
+                        <!-- Stats -->
+                        <div class="grid grid-cols-2 gap-6 mt-8">
+                            <div class="text-center p-4 glass rounded-lg card-hover">
+                                <div class="text-2xl font-bold text-accent mb-2">500+</div>
+                                <div class="text-sm text-gray-400">Projects Completed</div>
+                            </div>
+                            <div class="text-center p-4 glass rounded-lg card-hover">
+                                <div class="text-2xl font-bold text-accent mb-2">99%</div>
+                                <div class="text-sm text-gray-400">Client Satisfaction</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 md:py-28 lg:py-32 bg-primary-dark fade-in-section relative overflow-hidden">
+            <!-- Animated background pattern -->
+            <div class="absolute inset-0 opacity-5">
+                <div class="pattern-bg absolute inset-0"></div>
+            </div>
+            
+            <div class="container mx-auto px-4 sm:px-6 relative z-10">
+                <div class="text-center mb-16 md:mb-20">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Let's Build Your Future</h2>
+                    <p class="text-base sm:text-lg text-gray-300 mt-3">Reach out to start a conversation about your next project.</p>
+                </div>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 glass p-6 sm:p-8 rounded-2xl card-hover">
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4 group">
+                            <div class="bg-accent/10 p-3 rounded-full border border-accent/30 flex-shrink-0 transition-all duration-300 group-hover:bg-accent/20 group-hover:scale-110">
+                                <i class="fas fa-envelope text-accent text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white mb-2">Email Us</h4>
+                                <p class="text-gray-400 text-sm sm:text-base mb-2">Our team will get back to you within 24 hours.</p>
+                                <a href="mailto:contact@diplanet.com" class="text-accent hover:text-blue-300 text-sm sm:text-base transition-colors duration-300">contact@diplanet.com</a>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 group">
+                             <div class="bg-accent/10 p-3 rounded-full border border-accent/30 flex-shrink-0 transition-all duration-300 group-hover:bg-accent/20 group-hover:scale-110">
+                                 <i class="fas fa-phone text-accent text-lg"></i>
+                             </div>
+                            <div>
+                                <h4 class="font-semibold text-white mb-2">Call Us</h4>
+                                <p class="text-gray-400 text-sm sm:text-base mb-2">Mon-Fri from 8am to 5pm.</p>
+                                <a href="tel:+1234567890" class="text-accent hover:text-blue-300 text-sm sm:text-base transition-colors duration-300">+1 (234) 567-890</a>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="#" method="POST" class="space-y-4">
+                        <input type="text" name="name" placeholder="Your Name" required class="w-full glass rounded-lg py-3 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 hover:bg-white/10">
+                        <input type="email" name="email" placeholder="Your Email" required class="w-full glass rounded-lg py-3 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 hover:bg-white/10">
+                        <textarea name="message" rows="4" placeholder="How can we help you?" required class="w-full glass rounded-lg py-3 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 hover:bg-white/10 resize-none"></textarea>
+                        <button type="submit" class="w-full bg-gradient-to-r from-accent to-blue-400 hover:from-blue-400 hover:to-accent text-primary-dark font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-accent/30 btn-enhanced">
+                            <span class="relative z-10">Send Message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass border-t border-white/10">
+        <div class="container mx-auto px-4 sm:px-6 py-8 text-center text-gray-400 text-sm">
+            © 2024 DIPLANET. All Rights Reserved. | 
+            <span class="text-accent">Crafted with excellence</span>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Enhanced intersection observer with stagger effect
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('is-visible');
+                        }, index * 100); // Stagger animations
+                    }
+                });
+            }, { rootMargin: '0px', threshold: 0.1 });
+            sections.forEach(section => observer.observe(section));
+
+            // Add smooth reveal for list items
+            const listItems = document.querySelectorAll('li');
+            listItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, index * 100);
+            });
+
+            // Enhanced form interactions
+            const formInputs = document.querySelectorAll('input, textarea');
+            formInputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 10px 20px rgba(102, 153, 204, 0.2)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Add parallax effect to floating elements
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const parallax = document.querySelectorAll('.animate-float');
+                
+                parallax.forEach((element, index) => {
+                    const speed = 0.1 * (index + 1);
+                    element.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
